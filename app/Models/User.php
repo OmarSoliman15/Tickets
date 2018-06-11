@@ -6,14 +6,17 @@ use App\Models\Helpers\UserHelpers;
 use App\Models\Concerns\Presentable;
 use App\Models\Concerns\Resourcable;
 use App\Models\Concerns\HasMediaTrait;
+use App\Models\Presenters\UserPresenter;
+use App\Models\Relations\UserRelations;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use App\Models\Presenters\Urls\UserUrlGenerator;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements HasMedia
 {
-    use Notifiable, Resourcable, Presentable, HasMediaTrait, UserHelpers;
+    use Notifiable, Resourcable, Presentable, HasMediaTrait, UserHelpers, UserRelations, HasApiTokens;
 
     /**
      * The code of normal user type.
@@ -45,4 +48,13 @@ class User extends Authenticatable implements HasMedia
         'password',
         'remember_token',
     ];
+
+
+    /**
+     * The presenter class name.
+     *
+     * @var string
+     */
+    protected $presenter = UserPresenter::class;
+
 }

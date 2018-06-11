@@ -31,6 +31,54 @@
         </ul>
     </li>
 
+    {{--Users--}}
+    <li class="treeview {{ css_resource_active('dashboard.users') }}">
+        <a href="#">
+            <i class="fa fa-users"></i> <span>{{  trans('users.plural') }}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="{{ css_resource_active('dashboard.users') }}">
+                <a href="{{ route('dashboard.users.index') }}">
+                    <i class="fa fa-arrow-right"></i>
+                    {{  trans('general.list') }}
+                </a>
+            </li>
+            <li class="{{ css_route_active('dashboard.users.create') }}">
+                <a href="{{ route('dashboard.users.create') }}">
+                    <i class="fa fa-arrow-right"></i>
+                    {{  trans('general.add') }}
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    {{--Tickets--}}
+    <li class="treeview {{ css_resource_active('dashboard.tickets') }}">
+        <a href="#">
+            <i class="fa fa-ticket"></i> <span>{{  trans('tickets.plural') }}</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="{{ css_resource_active('dashboard.tickets') }}">
+                <a href="{{ route('dashboard.tickets.index') }}">
+                    <i class="fa fa-arrow-right"></i>
+                    {{  trans('general.list') }}
+                </a>
+            </li>
+            <li class="{{ css_route_active('dashboard.tickets.create') }}">
+                <a href="{{ route('dashboard.tickets.create') }}">
+                    <i class="fa fa-arrow-right"></i>
+                    {{  trans('general.add') }}
+                </a>
+            </li>
+        </ul>
+    </li>
+
     {{--Settings--}}
     <li class="{{ css_route_active('dashboard.settings.index') }}">
         <a href="{{ route('dashboard.settings.index') }}">

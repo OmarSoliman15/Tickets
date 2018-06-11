@@ -11,6 +11,6 @@ trait UserHelpers
      */
     public function isAdmin()
     {
-        return true;
+        return $this->type == static::ADMIN_TYPE;
     }
 }

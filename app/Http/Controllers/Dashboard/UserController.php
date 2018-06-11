@@ -3,84 +3,101 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\UserRequest;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display list of all users.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        $users = User::paginate();
+
+        return view('dashboard.users.index', compact('users'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show specific user.
      *
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(User $user)
+    {
+        return view('dashboard.users.show', compact('user'));
+    }
+
+    /**
+     * Display creation form.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        return view('dashboard.users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\Dashboard\UserRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = User::create($request->data());
+
+        $user->addOrUpdateMediaFromRequest('avatar');
+
+        $this->flash('created');
+
+        return redirect()->route('dashboard.users.index');
     }
 
     /**
-     * Display the specified resource.
+     * Display editing form.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(User $user)
     {
-        //
+        return view('dashboard.users.edit', compact('user'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\Dashboard\UserRequest $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, user $user)
     {
-        //
+        $user->update($request->data());
+
+        $user->addOrUpdateMediaFromRequest('avatar');
+
+        $this->flash('updated');
+
+        return redirect()->route('dashboard.users.show', $user);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete user.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\User $user
+     * @throws \Exception
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route('dashboard.users.index');
     }
 }

@@ -18,6 +18,13 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     /**
+     * This namespace is applied to your api controller routes.
+     *
+     * @var string
+     */
+    protected $apiControllersNamespace = 'App\Http\Controllers\Api';
+
+    /**
      * This namespace is applied to your dashboard controller routes.
      *
      * In addition, it is set as the URL generator's root namespace.
@@ -64,8 +71,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -78,18 +85,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapDashboardRoutes()
     {
         Route::middleware(['web', 'auth'])
-             ->namespace($this->dashboardNamespace)
-             ->prefix('dashboard')
-             ->as('dashboard.')
-             ->group(base_path('routes/dashboard.php'));
-
-        Route::middleware(['web'])
             ->namespace($this->dashboardNamespace)
             ->prefix('dashboard')
             ->as('dashboard.')
-            ->group(function () {
-                Auth::routes();
-            });
+            ->group(base_path('routes/dashboard.php'));
     }
 
     /**
@@ -102,8 +101,17 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->as('api.')
+            ->namespace($this->apiControllersNamespace)
+            ->group(base_path('routes/api.php'));
+
+        Route::prefix('api/auth')
+            ->as('api.auth.')
+            ->namespace($this->apiControllersNamespace)
+            ->group(function () {
+                Route::post('login', 'Auth\LoginController@login')->name('login');
+                Route::post('register', 'Auth\RegisterController@register')->name('register');
+            });
     }
 }

@@ -18,5 +18,8 @@ Route::put('settings', 'SettingController@update')->name('settings.update');
 
 Route::resource('admins', 'AdminController');
 
-
 Route::resource('users', 'UserController');
+
+Route::resource('tickets', 'TicketController');
+
+Route::post('tickets/{ticket}', 'TicketController@message')->name('tickets.message');

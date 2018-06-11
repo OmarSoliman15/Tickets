@@ -8,4 +8,6 @@ require 'breadcrumbs/admins.php';
 
 require 'breadcrumbs/users.php';
 
+require 'breadcrumbs/tickets.php';
+
 require 'breadcrumbs/notifications.php';

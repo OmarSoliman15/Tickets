@@ -12,12 +12,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        $this->call(TicketsTableSeeder::class);
 
         $this->command->warn("Admin Informations :");
         $this->command->table(['name', 'email', 'password'], [
             [
-                'name' => 'ElnoorOnline',
-                'email' => 'admin@elnooronline.com',
+                'name' => 'OmarSoliman',
+                'email' => 'omarsolimandev@gmail.com',
                 'password' => 'secret',
             ],
         ]);
